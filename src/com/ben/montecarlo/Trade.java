@@ -3,7 +3,7 @@ package com.ben.montecarlo;
 /*
  * This class represents a single trade.
  *  Hundreds to thousands of Trade objects make up one Simulation object,
- *  and hundreds to thousands of Simulation objects make up one Monte Carlo object.
+ *  and hundreds to thousands of Simulation objects make up one MonteCarlo object.
  */
 public class Trade
 {
@@ -14,7 +14,7 @@ public class Trade
     // Calculated Field: True if the netR is greater than zero, false otherwise
     boolean isWin;
 
-
+    // Constructor for a Trade
     public Trade(int tradeID, double netR)
     {
         this.tradeID = tradeID;
