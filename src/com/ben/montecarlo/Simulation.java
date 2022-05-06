@@ -52,8 +52,8 @@ public class Simulation
                 tradesWon++;
         }
 
-        // Divide that by the total number of trades in this simulation to get winrate. Round to 4 decimal places.
-        return roundDecimalUsingBigDecimal(tradesWon / (double) trades.length, 4);
+        // Divide that by the total number of trades in this simulation to get winrate. Round to 2 decimal places.
+        return roundDecimalUsingBigDecimal((tradesWon / (double) trades.length) * 100, 2);
     }
 
     // Returns the profit factor observed in this simualtion
@@ -77,6 +77,70 @@ public class Simulation
         return roundDecimalUsingBigDecimal(rWon / rLost, 2);
     }
 
+    // Returns the expectancy observed in this simulation
+    public double getObservedExpectancy()
+    {
+        // Get the observed win rate in this simulation, the average winning trade size, and the average losing trade size.
+        double observedWinRate = getObservedWinRate();
+        double avgWin          = monteCarlo.avgWin;
+        double avgLoss         = monteCarlo.avgLoss;
+
+        // Calculate expectancy ( winrate*avgwin - lossrate*avgloss)
+        double expectancy      = (observedWinRate / 100.0 * avgWin) + ( (1 - observedWinRate / 100) * avgLoss);
+
+        // Return the expectancy rounded to 2 decimal places
+        return roundDecimalUsingBigDecimal(expectancy, 2);
+    }
+
+    public double getObservedMaxRelativeDrawDown()
+    {
+        // Initially declare max relative drawdown as 0
+        double maxRelDrawDown = 0.0;
+
+        // Initially set the peak to negative infinity
+        double peak = Double.MIN_VALUE;
+
+        // Initally set the trough to positive infinity
+        double trough = Double.MAX_VALUE;
+
+        // Find the accumulated R values at each trade
+        double[] accumulatedR = new double[trades.length];
+        for (int i = 0; i < trades.length; i++)
+        {
+            if (i == 0)
+                accumulatedR[i] = trades[i].netR;
+            else
+                accumulatedR[i] = accumulatedR[i - 1] + trades[i].netR;
+        }
+
+        // Iterate through the accumulated R
+        for (int i = 0; i < accumulatedR.length; i++)
+        {
+            // If an accumulated R value is greater than the peak, set it as the new peak
+            if (accumulatedR[i] > peak)
+            {
+                peak = accumulatedR[i];
+
+                // Set the old peak as the new trough
+                trough = peak;
+            }
+            // If an accumulated R value is less than the trough, set it as the new trough
+            else if (accumulatedR[i] < trough)
+            {
+                trough = accumulatedR[i];
+
+                // Calculate what current relative drawdown is
+                double tempDrawDown = peak - trough;
+
+                // If the old max relative drawdown is greater than the current relative drawdown, set it as the new max relative drawdown
+                maxRelDrawDown = tempDrawDown > maxRelDrawDown ? tempDrawDown : maxRelDrawDown;
+            }
+        }
+
+        // Return max relative drawdown, rounded to 2 decimal places
+        return roundDecimalUsingBigDecimal(-maxRelDrawDown, 2);
+    }
+
     // Helper function: rounds a decimal using BigDecimal to preserve precision
     public static double roundDecimalUsingBigDecimal(double value, int decimalPlace)
     {
@@ -93,11 +157,14 @@ public class Simulation
         {
             totalAccumulatedR += trade.netR;
         }
+        totalAccumulatedR = roundDecimalUsingBigDecimal(totalAccumulatedR, 2);
 
         return "Simulation #" + simID +
                 ", # of Trades = " + trades.length +
-                ", Observed Win Rate = " + getObservedWinRate() * 100 +
+                ", Observed Win Rate = " + getObservedWinRate() +
                 "%, Observed Profit Factor = " + getObservedProfitFactor() +
-                ", Accumulated R = " + totalAccumulatedR;
+                ", Observed Expectancy = " + getObservedExpectancy() +
+                "R, Observed Max Rel. Drawdown = " + getObservedMaxRelativeDrawDown() +
+                "R, Accumulated R = " + totalAccumulatedR + "R";
     }
 }

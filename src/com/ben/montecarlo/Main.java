@@ -71,7 +71,7 @@ public class Main
         // Create and run a new Monte Carlo Simulation
         //================================================================
         MonteCarlo monteCarlo = new MonteCarlo(numOfSims, numOfTrades, winRate, avgWin, avgLoss);
-        System.out.println(monteCarlo.toString());
+        System.out.println(monteCarlo.toStringOnlySims());
         //================================================================
     }
 

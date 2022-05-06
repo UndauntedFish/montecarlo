@@ -46,6 +46,21 @@ public class MonteCarlo
         }
     }
 
+    // Return a nicely formatted String to visualize only the results of each individual simulation in the Monte Carlo simulation.
+    public String toStringOnlySims()
+    {
+        String monteCarloStr = "";
+
+        // Iterate through all simulations
+        for (Simulation sim : sims)
+        {
+            // Print a nicely formatted String to visualize the components of the current simulation
+            monteCarloStr += sim.toString() + "\n";
+        }
+
+        return monteCarloStr;
+    }
+
     @Override
     public String toString()
     {
