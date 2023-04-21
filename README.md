@@ -5,7 +5,7 @@ montecarlo is a command-line Java program that performs a Monte-Carlo simulation
 Here is an example of using the program to simulate the possible outcomes of 50,000,000 trades with a trading strategy with the following statistics:
  - Win probability: 60%
  - Size of average win: 1.2R 
-  - 1.2R = 1.2 times the initial risk of each trade. More about the "R" multiple here: https://www.vantharp.com/trading/wp-content/uploads/2018/06/A_Short_Lesson_on_R_and_R-multiple.pdf)
+    - 1.2R = 1.2 times the initial risk of each trade. More about the "R" multiple here: https://www.vantharp.com/trading/wp-content/uploads/2018/06/A_Short_Lesson_on_R_and_R-multiple.pdf)
  - Size of average loss: -1R
  - Average cost per trade (commisions, spread, extra fees, etc.): -0.05R
  
