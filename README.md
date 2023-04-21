@@ -9,7 +9,7 @@ Here is an example of using the program to simulate the possible outcomes of 50,
  - Size of average loss: -1R
  - Average cost per trade (commissions, spread, extra fees, etc.): -0.05R
  
- ![image](https://user-images.githubusercontent.com/58181651/233719841-6e4aa196-cc5e-4c49-a82b-b9c2257408b5.png)
+![image](https://user-images.githubusercontent.com/58181651/233721762-86b241fc-f3b7-4c63-9ed5-5e7f301789eb.png)
 
 
 The purpose of doing this is to stress test a trading system by seeing how it may play out throughout millions of different scenarios.
